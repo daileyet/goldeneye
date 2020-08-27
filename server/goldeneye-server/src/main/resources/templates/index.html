@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Goldeneye Simple Index</title>
+		<link rel="icon" href="../static/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon" />
+		<link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}" type="image/x-icon" />
+		<!-- zui -->
+		<link href="../static/css/zui.min.css" rel="stylesheet" th:href="@{/css/zui.min.css}">
+		<link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+		<!--[if lt IE 9]>
+		   <script src="../static/lib/ieonly/html5shiv.js" th:src="@{/lib/ieonly/html5shiv.js}"></script>
+		   <script src="../static/lib/ieonly/respond.js" th:src="@{/lib/ieonly/respond.js}"></script>
+		   <script src="../static/lib/ieonly/excanvas.js" th:src="@{/lib/ieonly/excanvas.js}"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<header th:replace="fragments :: header"></header>
+		<div id="page">
+			<div id="pageHeader">
+				<div class="wrapper container">
+					<i class="icon icon-file-archive"></i>
+					<h2>首页</h2>
+				</div>
+			</div>
+			<div id="pageBody">
+				<div class="container">
+					<div id="pageContent">
+						<div class="col-md-4" th:if="${mainAu != null}">
+							<div class="panel">
+								<div class="panel-heading">
+									<h2>Au</h2>
+								</div>
+								<div class="panel-body">
+									<form th:object="${mainAu}">
+										<div class="form-group">
+											<label for="priceTime">priceTime</label>
+											<input type="text" class="form-control" readonly="" value=""  th:value="${#dates.format(mainAu.priceTime,'yyyy-MM-dd HH:mm:ss')}">
+										</div>
+										<div class="form-group">
+											<label for="unitCode">unitCode</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{unitCode}">
+										</div>
+										<div class="form-group">
+											<label for="buyPrice">buyPrice</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{buyPrice}">
+										</div>
+										<div class="form-group">
+											<label for="sellPrice">sellPrice</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{sellPrice}">
+										</div>
+
+										<div class="form-group">
+											<label for="lowestPrice">lowestPrice</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{lowestPrice}">
+										</div>
+										<div class="form-group">
+											<label for="highestPrice">highestPrice</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{highestPrice}">
+										</div>
+										<div class="form-group">
+											<label for="change">change</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{change}">
+										</div>
+										<div class="form-group">
+											<label for="changePercent">changePercent</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{changePercent}">
+										</div>
+										<div class="form-group">
+											<label for="monChange">monChange</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{monChange}">
+										</div>
+										<div class="form-group">
+											<label for="monChangePercent">monChangePercent</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{monChangePercent}">
+										</div>
+										<div class="form-group">
+											<label for="yearChange">yearChange</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{yearChange}">
+										</div>
+										<div class="form-group">
+											<label for="yearChangePercent">yearChangePercent</label>
+											<input type="text" class="form-control" readonly="" value="" th:value="*{yearChangePercent}">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-8" >
+							<div class="panel">
+								<div class="panel-heading">
+									<h2>Others</h2>
+								</div>
+								<div class="panel-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>metalCode</th>
+												<th>unitCode</th>
+												<th>priceTime</th>
+												<th>price</th>
+												<th>change</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="other : ${otherMetas}">
+												<th th:text="${other.metalCode}">metalCode</th>
+												<th th:text="${other.unitCode}">unitCode</th>
+												<th>
+													<span th:if="${other.priceTime != null}" th:text="${#dates.format(other.priceTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+												</th>
+												<th th:text="${other.price}">price</th>
+												<th th:text="${other.change}">change</th>
+											</tr>
+										</tbody>
+										<!-- <tfoot>
+											<tr>
+												<td colspan="5" th:text=" |Total: |"></td>
+											</tr>
+										</tfoot> -->
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer th:include="fragments :: footer"></footer>
+
+		<!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+		<script src="../static/lib/jquery/jquery.js" th:src="@{/lib/jquery/jquery.js}"></script>
+		<!-- ZUI Javascript组件 -->
+		<script src="../static/js/zui.min.js" th:src="@{/js/zui.min.js}"></script>
+	</body>
+
+</html>

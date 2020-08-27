@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openthinks.goldeneye.core.mapper.GoldPriceHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.openthinks.goldeneye.core.model.GoldPriceHistory">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="price_time" jdbcType="TIMESTAMP" property="priceTime" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="buy_price" jdbcType="REAL" property="buyPrice" />
+    <result column="sell_price" jdbcType="REAL" property="sellPrice" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="change" jdbcType="VARCHAR" property="change" />
+    <result column="change_percent" jdbcType="VARCHAR" property="changePercent" />
+    <result column="mon_change" jdbcType="VARCHAR" property="monChange" />
+    <result column="mon_change_percent" jdbcType="VARCHAR" property="monChangePercent" />
+    <result column="year_change" jdbcType="VARCHAR" property="yearChange" />
+    <result column="year_change_percent" jdbcType="VARCHAR" property="yearChangePercent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, price_time, unit_code, buy_price, sell_price, lowest_price, highest_price, `change`, 
+    change_percent, mon_change, mon_change_percent, year_change, year_change_percent
+  </sql>
+  <select id="selectByExample" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gold_price_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gold_price_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from gold_price_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistoryExample">
+    delete from gold_price_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistory">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      SELECT UUID_SHORT()
+    </selectKey>
+    insert into gold_price_history (id, price_time, unit_code, 
+      buy_price, sell_price, lowest_price, 
+      highest_price, `change`, change_percent, 
+      mon_change, mon_change_percent, year_change, 
+      year_change_percent)
+    values (#{id,jdbcType=BIGINT}, #{priceTime,jdbcType=TIMESTAMP}, #{unitCode,jdbcType=VARCHAR}, 
+      #{buyPrice,jdbcType=REAL}, #{sellPrice,jdbcType=REAL}, #{lowestPrice,jdbcType=REAL}, 
+      #{highestPrice,jdbcType=REAL}, #{change,jdbcType=VARCHAR}, #{changePercent,jdbcType=VARCHAR}, 
+      #{monChange,jdbcType=VARCHAR}, #{monChangePercent,jdbcType=VARCHAR}, #{yearChange,jdbcType=VARCHAR}, 
+      #{yearChangePercent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistory">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+      SELECT UUID_SHORT()
+    </selectKey>
+    insert into gold_price_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="priceTime != null">
+        price_time,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
+      </if>
+      <if test="buyPrice != null">
+        buy_price,
+      </if>
+      <if test="sellPrice != null">
+        sell_price,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="change != null">
+        `change`,
+      </if>
+      <if test="changePercent != null">
+        change_percent,
+      </if>
+      <if test="monChange != null">
+        mon_change,
+      </if>
+      <if test="monChangePercent != null">
+        mon_change_percent,
+      </if>
+      <if test="yearChange != null">
+        year_change,
+      </if>
+      <if test="yearChangePercent != null">
+        year_change_percent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=BIGINT},
+      <if test="priceTime != null">
+        #{priceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyPrice != null">
+        #{buyPrice,jdbcType=REAL},
+      </if>
+      <if test="sellPrice != null">
+        #{sellPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="change != null">
+        #{change,jdbcType=VARCHAR},
+      </if>
+      <if test="changePercent != null">
+        #{changePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="monChange != null">
+        #{monChange,jdbcType=VARCHAR},
+      </if>
+      <if test="monChangePercent != null">
+        #{monChangePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="yearChange != null">
+        #{yearChange,jdbcType=VARCHAR},
+      </if>
+      <if test="yearChangePercent != null">
+        #{yearChangePercent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistoryExample" resultType="java.lang.Long">
+    select count(*) from gold_price_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update gold_price_history
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.priceTime != null">
+        price_time = #{record.priceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyPrice != null">
+        buy_price = #{record.buyPrice,jdbcType=REAL},
+      </if>
+      <if test="record.sellPrice != null">
+        sell_price = #{record.sellPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.change != null">
+        `change` = #{record.change,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changePercent != null">
+        change_percent = #{record.changePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.monChange != null">
+        mon_change = #{record.monChange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.monChangePercent != null">
+        mon_change_percent = #{record.monChangePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearChange != null">
+        year_change = #{record.yearChange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearChangePercent != null">
+        year_change_percent = #{record.yearChangePercent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update gold_price_history
+    set id = #{record.id,jdbcType=BIGINT},
+      price_time = #{record.priceTime,jdbcType=TIMESTAMP},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      buy_price = #{record.buyPrice,jdbcType=REAL},
+      sell_price = #{record.sellPrice,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      `change` = #{record.change,jdbcType=VARCHAR},
+      change_percent = #{record.changePercent,jdbcType=VARCHAR},
+      mon_change = #{record.monChange,jdbcType=VARCHAR},
+      mon_change_percent = #{record.monChangePercent,jdbcType=VARCHAR},
+      year_change = #{record.yearChange,jdbcType=VARCHAR},
+      year_change_percent = #{record.yearChangePercent,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistory">
+    update gold_price_history
+    <set>
+      <if test="priceTime != null">
+        price_time = #{priceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyPrice != null">
+        buy_price = #{buyPrice,jdbcType=REAL},
+      </if>
+      <if test="sellPrice != null">
+        sell_price = #{sellPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="change != null">
+        `change` = #{change,jdbcType=VARCHAR},
+      </if>
+      <if test="changePercent != null">
+        change_percent = #{changePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="monChange != null">
+        mon_change = #{monChange,jdbcType=VARCHAR},
+      </if>
+      <if test="monChangePercent != null">
+        mon_change_percent = #{monChangePercent,jdbcType=VARCHAR},
+      </if>
+      <if test="yearChange != null">
+        year_change = #{yearChange,jdbcType=VARCHAR},
+      </if>
+      <if test="yearChangePercent != null">
+        year_change_percent = #{yearChangePercent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistory">
+    update gold_price_history
+    set price_time = #{priceTime,jdbcType=TIMESTAMP},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      buy_price = #{buyPrice,jdbcType=REAL},
+      sell_price = #{sellPrice,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      `change` = #{change,jdbcType=VARCHAR},
+      change_percent = #{changePercent,jdbcType=VARCHAR},
+      mon_change = #{monChange,jdbcType=VARCHAR},
+      mon_change_percent = #{monChangePercent,jdbcType=VARCHAR},
+      year_change = #{yearChange,jdbcType=VARCHAR},
+      year_change_percent = #{yearChangePercent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gold_price_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!-- generated by SelectOneByExamplePlugin Thu Nov 22 10:03:54 CST 2018 -->
+  <select id="selectOneByExample" parameterType="com.openthinks.goldeneye.core.model.GoldPriceHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gold_price_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
